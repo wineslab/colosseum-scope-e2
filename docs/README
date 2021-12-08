@@ -1,0 +1,84 @@
+Directory Structure :
+---------------------
+1. l2/build/ : contains files required to compile the code
+   a. common : contains individual module's makefile
+   b. config : contains SSI memory configuration
+   c. odu    : contains main makefile to generate an executable binary
+
+2. l2/docs/  : contains README and other configuration files for building docs
+	
+2. l2/src/ : contains layer specific source code
+   a. 5gnrmac  : MAC source code
+   b. 5gnrrlc  : RLC source code
+   c. cm       : common, environment and interface files
+   d. cu_stub  : Stub code for CU
+   e. du_app   : DU application and F1 code 
+   f. mt       : wrapper functions over OS
+   g. phy_stub : Stub code for Physical layer
+   h. rlog     : logging module
+
+
+Pre-requisite for Compilation :
+-------------------------------
+1. Linux 32-bit/64-bit machine
+2. GCC version 4.6.3 and above
+3. Install LKSCTP
+   a. On Ubuntu : sudo apt-get install -y libsctp-dev
+   b. On CentOS : yum install lksctp-tools
+
+
+How to Clean and Build:
+-----------------------
+1. Building ODU binary:
+   a. Build folder
+         cd l2/build/odu
+   b. Building ODU binary
+         make odu MACHINE=BIT64 MODE=FDD
+   c. Cleaning ODU binary
+         make clean_odu MACHINE=BIT64 MODE=FDD
+
+2. Building CU Stub binary:
+   a. Build folder
+         cd l2/build/odu
+   b. Building CU Stub binary
+         make cu_stub NODE=TEST_STUB MACHINE=BIT64 MODE=FDD
+   c. Cleaning CU Stub binary
+         make clean_cu NODE=TEST_STUB MACHINE=BIT64 MODE=FDD
+
+2. Building RIC Stub binary:
+   a. Build folder
+         cd l2/build/odu
+   b. Building RIC Stub binary
+         make ric_stub NODE=TEST_STUB MACHINE=BIT64 MODE=FDD
+   c. Cleaning RIC Stub binary
+         make clean_ric NODE=TEST_STUB MACHINE=BIT64 MODE=FDD
+
+4. Cleaning ODU and CU Stub
+      make clean_all MACHINE=BIT64 MODE=FDD
+
+How to execute:
+---------------
+1. Assign virtual IP addresses as follows:
+      ifconfig <interface name>:ODU "192.168.130.81"
+      ifconfig <interface name>:CU_STUB "192.168.130.82"
+      ifconfig <interface name>:RIC_STUB "192.168.130.80"
+
+2. CU execution folder:
+      cd l2/bin/cu_stub
+     
+3. Run CU Stub binary:
+      ./cu_stub
+
+4. RIC execution folder:
+      cd l2/bin/ric_stub
+     
+5. Run RIC Stub binary:
+      ./ric_stub
+
+4. DU execution folder:
+      cd l2/bin/odu
+     
+5. Run ODU binary:
+      ./odu
+
+PS: CU stub and RIC stub must be run (in no particular sequence) before ODU
