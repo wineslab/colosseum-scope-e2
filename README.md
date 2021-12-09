@@ -55,4 +55,4 @@ Large messages over the E2 interface may cause crashes in the `e2term` component
 
 
 ---
-<a id="footnote1">1</a>Omit the second line of the control message to only transmit a scheduling policy control, e.g., `1,0,0`. Start the control message with a newline character (`\n`) to only transmit a slicing allocation control, e.g., `\n5,10,3`
+<sup><a id="footnote1">1</a></sup>Omit the second line of the control message to only transmit a scheduling policy control, e.g., `1,0,0`. Start the control message with a newline character (`\n`) to only transmit a slicing allocation control, e.g., `\n5,10,3`
