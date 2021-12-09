@@ -30,7 +30,7 @@ void readMetrics(FILE *fp, bs_metrics_t *metrics) {
 // read metrics into bs_metrics structure and assemble line to send
 // done for future extension in which metrics are selectively sent
 // metrics_preset selects which metrics to send. E.g., 0: send all metrics
-void readMetricsInteactive(FILE *fp, char (*output_string)[MAX_BUF_SIZE], int metrics_preset) {
+void readMetricsInteractive(FILE *fp, char (*output_string)[MAX_BUF_SIZE], int metrics_preset) {
 
   bs_metrics_t metrics;
   readMetrics(fp, &metrics);
@@ -89,7 +89,7 @@ void readMetricsInteactive(FILE *fp, char (*output_string)[MAX_BUF_SIZE], int me
 
         break;
       default:
-        printf("readMetricsInteactive: Preset %d unknown\n", metrics_preset);
+        printf("readMetricsInteractive: Preset %d unknown\n", metrics_preset);
     }
   }
 
@@ -149,7 +149,7 @@ void readLastMetricsLines(char *file_name, int to_read, char **output_string, in
         fscanf(fp, "%[^\n]\n", metrics_array[j]);
       }
       else {
-        readMetricsInteactive(fp, &(metrics_array[j]), METRICS_PRESET);
+        readMetricsInteractive(fp, &(metrics_array[j]), METRICS_PRESET);
       }
 
       int line_len = strlen(metrics_array[j]);
@@ -195,8 +195,8 @@ void readLastMetricsLines(char *file_name, int to_read, char **output_string, in
         continue;
       }
 
-      // strip timestamp if METRICS_PRESET is 1
-      if (METRICS_PRESET == 1) {
+      // strip timestamp if METRICS_PRESET is 1 or more
+      if (METRICS_PRESET >= 1) {
         char tmp_ts[100];
         sprintf(tmp_ts, "%lu", metric_ts);
         strcat(tmp_ts, ",");

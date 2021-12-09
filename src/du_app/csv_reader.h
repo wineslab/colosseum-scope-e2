@@ -56,7 +56,7 @@ typedef struct bs_metrics {
 
 
 void readMetrics(FILE *fp, bs_metrics_t *metrics);
-void readMetricsInteactive(FILE *fp, char (*output_string)[MAX_BUF_SIZE], int metrics_preset);
+void readMetricsInteractive(FILE *fp, char (*output_string)[MAX_BUF_SIZE], int metrics_preset);
 void readLastMetricsLines(char *file_name, int to_read, char **output_string, int skip_header);
 int getDirContent(char *directory_name, char (*dir_content)[MAX_BUF_SIZE]);
 void get_tx_string(char **send_metrics, int lines_to_read);
