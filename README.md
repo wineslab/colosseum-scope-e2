@@ -33,7 +33,15 @@ Some configurations can be tuned directly from the [build_odu.sh](build_odu.sh) 
 - `RIC_HOST`: IP address of the near-real-time RIC to connect to
 - `RIC_PORT`: port the near-real-time RIC is listening to
 - `INTERFACE_TO_RIC`: interface used by the host to reach the near-real-time RIC
-- `DEBUG`: if enabled (set to `1`), the E2 termination will transmit test metrics to the subscribed xApp. If disabled (set to `0`), run-time metrics corresponding to the served users will be transmitted. By default, these metrics are taken from the SCOPE CSV-formatted metrics [directory](https://github.com/wineslab/colosseum-scope/tree/main/radio_code/scope_config/metrics/csv)
+- `DEBUG`: if enabled (set to `1`), the E2 termination will transmit test metrics to the subscribed xApp. If disabled (set to `0`), run-time metrics corresponding to the served users will be transmitted. By default, these metrics are taken from the SCOPE CSV-formatted metrics [directory](https://github.com/wineslab/colosseum-scope/tree/main/radio_code/scope_config/metrics/csv). The freshness of these metrics can be tuned from the `DELTA_TS_S` in the [csv_reader.h](src/du_app/csv_reader.h) file.
+
+## Transmitted metrics
+
+TODO
+
+## Maximum payload of data reports and message segmentation
+
+TODO
 
 
 ---
