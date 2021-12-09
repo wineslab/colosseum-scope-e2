@@ -25,7 +25,7 @@ It can interact with the files in the SCOPE [scope_config](https://github.com/wi
 Once connected to the near-real-time RIC, this implementation is capable of:
 - Transmitting periodic RAN metrics to subscribed xApps with a periodicity defined by the subscribing xApp through RIC Indication Messages
 - Receive control actions from the xApp through RIC Control Messages. The supported control actions allow to modify scheduling and slicing policies of the SCOPE base station. Messages should be in the following format: `<comma-separated slicing policy for each slice>\n<comma-separated number of RBG for each slice`.<sup>[1](#footnote1)</sup>
-For instance, the control message `1,0,0\n5,10,3` implements the slicing policiy `1` for the first slice, and `0` for the second and third slices. The control message also sets `5` RBGs for the first slice, `10` for the second, and `3` for the third. (See the [radio_code](https://github.com/wineslab/colosseum-scope#radio_code) session of the SCOPE repository for more details on the meaning of these values.)
+For instance, the control message `1,0,0\n5,10,3` implements the slicing policiy `1` for the first slice, and `0` for the second and third slices. The control message also sets `5` RBGs for the first slice, `10` for the second, and `3` for the third. (See the [radio_code](https://github.com/wineslab/colosseum-scope#radio_code) section of the SCOPE repository for more details on the meaning of these values.)
 
 ## Build file
 
