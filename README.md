@@ -18,7 +18,7 @@ From the `root` directory of the cloned repository:
 ## Integration with SCOPE
 
 The code in this repository is designed to run on the Colosseum testbed as part of the SCOPE framework (and cloned in the SCOPE [radio_code](https://github.com/wineslab/colosseum-scope/tree/main/radio_code) directory).
-If not, it may be necessary to slightly adapt the configuration parameters in [srs_connector.h](colosseum-scope-e2/src/du_app/srs_connector.h) (e.g., `CONFIG_PATH`, `SCHEDULING_FILENAME`, and `SLICING_BASE_FILENAME`).
+If not, it may be necessary to slightly adapt the configuration parameters in [srs_connector.h](src/du_app/srs_connector.h) (e.g., `CONFIG_PATH`, `SCHEDULING_FILENAME`, and `SLICING_BASE_FILENAME`).
 
 It can interact with the files in the SCOPE [scope_config](https://github.com/wineslab/colosseum-scope/tree/main/radio_code/scope_config) directory (e.g., to read metrics or implement control actions received from the xApps running on the near-real-time RIC).
 
