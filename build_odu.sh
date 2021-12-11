@@ -1,8 +1,8 @@
 #!/bin/sh
 
-export RIC_HOST="172.17.1.104"
+export RIC_HOST="172.30.105.104"
 export RIC_PORT=36422
-export INTERFACE_TO_RIC="can0"
+export INTERFACE_TO_RIC="col0"
 export DEBUG=0
 
 # get build clean from cli arguments
