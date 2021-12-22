@@ -2,9 +2,10 @@
 
 This repository provides an implementation of the RAN-side E2 termination to connect to the O-RAN near-real-time RIC, e.g., the one provided [here](https://github.com/wineslab/colosseum-near-rt-ric). This code has beed adapted from the O-RAN Software Community [o-du-l2](https://github.com/o-ran-sc/o-du-l2) repository and extended to connect to the base station provided as part of the [SCOPE](https://github.com/wineslab/colosseum-scope) framework.
 
-If you use this software, please reference the following paper:
+If you use this software, please reference the following papers:
 
-XXX
+- M. Polese, L. Bonati, S. D'Oro, S. Basagni, T. Melodia, "ColoRAN: Design and Testing of Open RAN Intelligence on Large-scale Experimental Platforms," arXiv 2112.09559 [cs.NI], December 2021
+- L. Bonati, S. D'Oro, S. Basagni, and T. Melodia, "SCOPE: An Open and Softwarized Prototyping Platform for NextG Systems," in Proceedings of ACM MobiSys, June 2021
 
 This work was partially supported by the U.S. National Science Foundation under Grants CNS-1923789 and NSF CNS-1925601, and the U.S. Office of Naval Research under Grant N00014-20-1-2132.
 
