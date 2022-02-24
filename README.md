@@ -1,16 +1,16 @@
 # SCOPE E2 Interface
 
-This repository provides an implementation of the RAN-side E2 termination to connect to the O-RAN near-real-time RIC, e.g., the one provided [here](https://github.com/wineslab/colosseum-near-rt-ric). This code has beed adapted from the O-RAN Software Community [o-du-l2](https://github.com/o-ran-sc/o-du-l2) repository and extended to connect to the base station provided as part of the [SCOPE](https://github.com/wineslab/colosseum-scope) framework.
+This repository is part of the [OpenRAN Gym](https://openrangym.com) project. It provides an implementation of the RAN-side E2 termination to connect to the O-RAN near-real-time RIC, e.g., the one provided [here](https://github.com/wineslab/colosseum-near-rt-ric). This code has beed adapted from the O-RAN Software Community [o-du-l2](https://github.com/o-ran-sc/o-du-l2) repository and extended to connect to the base station provided as part of the [SCOPE](https://github.com/wineslab/colosseum-scope) framework.
 
 If you use this software, please reference the following paper:
 
-XXX
+> L. Bonati, M. Polese, S. D'Oro, S. Basagni, T. Melodia, "OpenRAN Gym: An Open Toolbox for Data Collection and Experimentation with AI in O-RAN," Proc. of IEEE WCNC Workshop on Open RAN Architecture for 5G Evolution and 6G, Austin, TX, USA, April 2022. [bibtex](https://ece.northeastern.edu/wineslab/wines_bibtex/bonati2022openrangym.txt) [pdf](https://arxiv.org/pdf/2202.10318.pdf)
 
 This work was partially supported by the U.S. National Science Foundation under Grants CNS-1923789 and NSF CNS-1925601, and the U.S. Office of Naval Research under Grant N00014-20-1-2132.
 
 ## Quick start
 
-We provide a Colosseum LXC container that contains this repository, the SCOPE framework, and their prerequisites. The container XXX can be found among the images available for Colosseum users. 
+We provide a Colosseum LXC container that contains this repository, the SCOPE framework, and their prerequisites. The container `scope-with-e2` can be found among the images available for Colosseum users. The default username and password are `root` and `scope`.
 
 From the `root` directory of the cloned repository:
 - From the [build_odu.sh](build_odu.sh) file: configure the near-real-time RIC IP address (`RIC_HOST`), port (`RIC_PORT`), and interface to reach the RIC from this host (`INTERFACE_TO_RIC`)
