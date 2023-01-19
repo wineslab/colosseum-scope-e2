@@ -55,6 +55,9 @@ A complete list of KPMs can be found in the `struct bs_metrics` of the [`csv_rea
 
 Large messages over the E2 interface may cause crashes in the `e2term` component upon decoding of the ASN.1 structures. For this reason, the E2 reports are split if their size is larger than the `MAX_REPORT_PAYLOAD` macro (currently set to 300 bytes). In this case, the partial reports (except the last one) will start with the character `m`.
 
+## Troubleshooting
+
+- Cannot set processes with real-time priority: If running in an LXC container on a testbed external to Colosseum, make sure that your LXC container is allowed to run real-time processes (option `limits.kernel.rtprio: "99"` in the container configuration). On Colosseum, this option is applied by default.
 
 ---
 <sup><a id="footnote1">1</a></sup>Omit the second line of the control message to only transmit a scheduling policy control, e.g., `1,0,0`. Start the control message with a newline character (`\n`) to only transmit a slicing allocation control, e.g., `\n5,10,3`
