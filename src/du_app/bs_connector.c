@@ -24,7 +24,7 @@ void handleTimer(float* timer, uint32_t* ric_req_id) {
 
   // start thread
   report_data_nrt_ric = 1;
-  if (pthread_create(&thread, NULL, periodicDataReport, (void *) t_args) != 0) {
+  if (pthread_create(&thread, NULL, periodicDataReportThread, (void *) t_args) != 0) {
     printf("Error creating thread\n");
   }
 
@@ -32,8 +32,7 @@ void handleTimer(float* timer, uint32_t* ric_req_id) {
 }
 
 
-// function to periodically report data
-void *periodicDataReport(void* arg) {
+void *periodicDataReportThread(void* arg) {
 
   thread_args *t_args = (thread_args*) arg;
 
@@ -46,26 +45,27 @@ void *periodicDataReport(void* arg) {
   uint32_t* ric_req_id = t_args->ric_req_id;
   uint32_t ric_req_id_deref = ric_req_id[0];
   printf("ricReqId %" PRIu32 "\n", ric_req_id_deref);
-  
+
+  while (report_data_nrt_ric) {
+    periodicDataReport(ric_req_id_deref);
+    usleep(timer_deref * 1000000);
+  }
+}
+
+
+// function to periodically report data
+void periodicDataReport(uint32_t ric_req_id_deref) {
+
   if (DEBUG) {
     // debug
     printf("Debug mode\n");
-    char *payload = "0,1,2,3,4,5\n1,6,7,8,9,10\n2,11,12,13,14,15";
-
-    // to send timer as payload
-    //char *payload = NULL;
-    //asprintf(&payload, "%g", timer_deref);
+    char* payload = NULL;
+    payload = (char*) "0,1,2,3,4,5\n1,6,7,8,9,10\n2,11,12,13,14,15";
 
     BuildAndSendRicIndicationReport(payload, strlen(payload), ric_req_id_deref);
   }
   else {
     sendMetricsXapp(ric_req_id_deref);
-  }
-
-  sleep(timer_deref);
-
-  if (report_data_nrt_ric) {
-    periodicDataReport((void*) t_args);
   }
 }
 

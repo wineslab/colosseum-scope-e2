@@ -17,7 +17,8 @@ typedef struct {
 } thread_args;
 
 void handleTimer(float* timer, uint32_t* ric_req_id);
-void *periodicDataReport(void* arg);
+void *periodicDataReportThread(void* arg);
+void periodicDataReport(uint32_t ric_req_id_deref);
 void log_message(char* message, char* message_type, int len);
 void stop_data_reporting_nrt_ric(void) ;
 
