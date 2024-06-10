@@ -33,7 +33,6 @@
 #include "odu_common_codec.h"
 
 #include "bs_connector.h"
-#include "srs_connector.h"
 #include <string.h>
 
 /* Global variable */
@@ -991,12 +990,11 @@ uint8_t procRicControlReq(E2AP_PDU_t *e2apMsg)
             log_message((char*) e2apMsgDb.ricEventTrigger, "control", (int)recvBufLen);
 
             // write policies on config file
-            // write_scheduling_policy((char*) e2apMsgDb.ricEventTrigger);
             if (strcmp((char*) e2apMsgDb.ricEventTrigger, "terminate") == 0) {
               stop_data_reporting_nrt_ric();
             }
             else {
-              write_control_policies((char*) e2apMsgDb.ricEventTrigger);
+              write_control_policies_c((char*) e2apMsgDb.ricEventTrigger);
             }
 
             break;

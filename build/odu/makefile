@@ -96,7 +96,7 @@ export I_OPTS
 
 # Add to the linker options the platform specific components
 #L_OPTS+=-lnsl -lrt -lm -lpthread -lsctp
-L_OPTS+=-lnsl -lrt -lm -lpthread -lsctp
+L_OPTS+=-lnsl -lrt -lm -lpthread -lsctp -lcsv_reader -lsrs_connector
 
 # Export some of the flags expected from the command line.
 # # These macros are made available for the makefiles called from this makefile

@@ -1,14 +1,25 @@
 #!/bin/sh
 
-export RIC_HOST="172.30.105.104"
+set -e
+
+export RIC_HOST="172.17.1.104"
 export RIC_PORT=36422
 export INTERFACE_TO_RIC="col0"
+export JSON_FORMAT=0
 export DEBUG=0
 
 # get build clean from cli arguments
 if [ $# -ne 0 ]; then
     BUILD_CLEAN=1
 fi
+
+# build rust libraries
+# rustc --crate-type cdylib src/du_app/csv_reader/src/main.rs -o /usr/lib/libcsv_reader.so
+rust_libraries="csv_reader srs_connector"
+for i in ${rust_libraries}; do
+    cd ./src/du_app/${i} && cargo build --release && cp target/release/lib${i}.* /usr/lib/ && cd ../../..
+done
+ldconfig
 
 # setup RIC e2term address and port
 sed -i "s/^#define RIC_IP_V4_ADDR.*/#define RIC_IP_V4_ADDR \"${RIC_HOST}\"/g" ./src/du_app/du_cfg.h
@@ -19,6 +30,9 @@ sed -i "s/^#define INTERFACE_TO_RIC.*/#define INTERFACE_TO_RIC \"${INTERFACE_TO_
 
 # setup debug field
 sed -i "s/^#define DEBUG.*/#define DEBUG ${DEBUG}/g" ./src/du_app/bs_connector.h
+
+# setup field to send metrics in json format
+sed -i "s/^#define JSON_FORMAT.*/#define JSON_FORMAT ${JSON_FORMAT}/g" ./src/du_app/bs_connector.h
 
 # build
 if [ ${BUILD_CLEAN} ]; then
