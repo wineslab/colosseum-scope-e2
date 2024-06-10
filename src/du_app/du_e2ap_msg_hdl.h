@@ -40,6 +40,10 @@ uint8_t BuildAndSendRicIndicationReport(char* payload, int payload_len, uint32_t
 uint8_t SendE2APMsg(Region , Pool );
 void E2APMsgHdlr(Buffer *mBuf);
 uint8_t deAllocateE2SetupReqMsg(E2AP_PDU_t *e2apMsg, E2setupRequest_t *e2SetupReq, uint8_t idx);
+
+// declare the rust functions
+extern void write_control_policies_c(char* control_policies);
+
 /**********************************************************************
   End of file
  **********************************************************************/

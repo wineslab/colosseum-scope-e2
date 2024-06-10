@@ -4,8 +4,6 @@
 #include <inttypes.h>
 
 #include "bs_connector.h"
-#include "csv_reader.h"
-//#include "du_e2ap_msg_hdl.h"
 
 int report_data_nrt_ric = 1;
 
@@ -60,7 +58,12 @@ void periodicDataReport(uint32_t ric_req_id_deref) {
     // debug
     printf("Debug mode\n");
     char* payload = NULL;
-    payload = (char*) "0,1,2,3,4,5\n1,6,7,8,9,10\n2,11,12,13,14,15";
+    if (JSON_FORMAT) {
+      payload = (char*) "{\"timestamp\":1602706183796,\"slice_id\":0,\"dl_bytes\":53431,\"dl_thr_mbps\":2.39,\"ratio_granted_req_prb\":0.02,\"slice_prb\":6,\"dl_pkts\":200}";
+    }
+    else {
+      payload = (char*) "0,1,2,3,4,5\n1,6,7,8,9,10\n2,11,12,13,14,15";
+    }
 
     BuildAndSendRicIndicationReport(payload, strlen(payload), ric_req_id_deref);
   }
@@ -73,12 +76,10 @@ void periodicDataReport(uint32_t ric_req_id_deref) {
 // get and send metrics to xApp
 void sendMetricsXapp(uint32_t ric_req_id) {
 
-  char *payload = NULL;
-  int lines_to_read = LINES_TO_READ;
+  uint32_t lines_to_read = LINES_TO_READ;
+  char *payload = get_tx_string_c(lines_to_read, JSON_FORMAT);
 
-  get_tx_string(&payload, lines_to_read);
-
-  if (payload) {
+  if (payload != NULL) {
     int payload_len = strlen(payload);
 
     // split if more than maximum payload for ric indication report
@@ -90,10 +91,13 @@ void sendMetricsXapp(uint32_t ric_req_id) {
       memset(chunk, 0, MAX_REPORT_PAYLOAD + 1);
 
       int offset = 0;
-      // add 'm' at the beginning to indicate there are more chunks
+      // add random string at the beginning to indicate there are more chunks
+      // NOTE: need to handle this at the xApp side
+      char* more_data_signal = "mJQCx";
+      int more_data_signal_len = strlen(more_data_signal);
       if (i + MAX_REPORT_PAYLOAD < payload_len) {
-        strcpy(chunk, "m");
-        offset = 1;
+        strcpy(chunk, more_data_signal);
+        offset = more_data_signal_len;
       }
 
       strncpy(chunk + offset, payload + i, MAX_REPORT_PAYLOAD);
@@ -103,11 +107,10 @@ void sendMetricsXapp(uint32_t ric_req_id) {
 
     printf("Sent RICIndicationReport\n");
 
-    free(chunk);
-    chunk = NULL;
-
-    free(payload);
-    payload = NULL;
+    if (chunk != NULL) {
+      free(chunk);
+      chunk = NULL;
+    }
   }
 }
 
