@@ -22,14 +22,16 @@ From the `root` directory of the cloned repository:
 ## Integration with SCOPE
 
 The code in this repository is designed to run on the Colosseum testbed as part of the SCOPE framework (and cloned in the SCOPE [radio_code](https://github.com/wineslab/colosseum-scope/tree/main/radio_code) directory).
-If not, it may be necessary to slightly adapt the configuration parameters in [srs_connector.h](src/du_app/srs_connector.h) (e.g., `CONFIG_PATH`, `SCHEDULING_FILENAME`, and `SLICING_BASE_FILENAME`).
+If not, it may be necessary to slightly adapt the configuration parameters in the [srs_connector library](src/du_app/srs_connector/src/lib.rs) (e.g., `CONFIG_PATH`, `SCHEDULING_FILENAME`, and `SLICING_BASE_FILENAME`), which has been rewritten in Rust.
 
 It can interact with the files in the SCOPE [scope_config](https://github.com/wineslab/colosseum-scope/tree/main/radio_code/scope_config) directory (e.g., to read metrics or implement control actions received from the xApps running on the near-real-time RIC).
 
 Once connected to the near-real-time RIC, this implementation is capable of:
 - Transmitting periodic RAN metrics to subscribed xApps with a periodicity defined by the subscribing xApp through RIC Indication Messages
-- Receive control actions from the xApp through RIC Control Messages. The supported control actions allow to modify scheduling and slicing policies of the SCOPE base station. Messages should be in the following format: `<comma-separated slicing policy for each slice>\n<comma-separated number of RBG for each slice`.<sup>[1](#footnote1)</sup>
-For instance, the control message `1,0,0\n5,10,3` implements the scheduling policiy `1` for the first slice, and `0` for the second and third slices. The control message also sets `5` RBGs for the first slice, `10` for the second, and `3` for the third. (See the [radio_code](https://github.com/wineslab/colosseum-scope#radio_code) section of the SCOPE repository for more details on the meaning of these values.)
+- Receive control actions from the xApp through RIC Control Messages. The supported control actions allow to modify scheduling and slicing policies of the SCOPE base station. Messages should be in one of the following formats:
+    - `<comma-separated scheduling policy for each slice>\n<comma-separated number of RBG for each slice>` if setting the flag `JSON_FORMAT=0` in the `build_odu.sh` file.<sup>[1](#footnote1)</sup> For instance, the control message `1,0,0\n5,10,3` implements the scheduling policiy `1` for the first slice, and `0` for the second and third slices. The control message also sets `5` RBGs for the first slice, `10` for the second, and `3` for the third.
+    - JSON-formatted control policies in the format `{"sched": "<comma-separated string of scheduling policy for each slice>", "slicing": "<comma-separated string with number of RBG for each slice"}` if setting the flag `JSON_FORMAT=1`. For instance, the control message of the previous bullet point would be sent as `{"sched": "1,0,0", "slicing": "5,10,3"}`.
+Please see the [radio_code](https://github.com/wineslab/colosseum-scope#radio_code) section of the SCOPE repository for more details on the meaning of these values. The `JSON_FORMAT` parameter also triggers the periodic metric reports to be sent as JSON-formatted of plain string.
 
 ## Build file
 
@@ -37,11 +39,12 @@ Some configurations can be tuned directly from the [build_odu.sh](build_odu.sh) 
 - `RIC_HOST`: IP address of the near-real-time RIC to connect to. This is the IP of the LXC container running the near-real-time RIC in Colosseum, or of the e2term container in a local deployment
 - `RIC_PORT`: port the near-real-time RIC is listening to
 - `INTERFACE_TO_RIC`: interface used by the host to reach the near-real-time RIC
-- `DEBUG`: if enabled (set to `1`), the E2 termination will transmit test metrics to the subscribed xApp. If disabled (set to `0`), run-time metrics corresponding to the served users will be transmitted. By default, these metrics are taken from the SCOPE CSV-formatted metrics [directory](https://github.com/wineslab/colosseum-scope/tree/main/radio_code/scope_config/metrics/csv). The freshness of these metrics can be tuned from the `DELTA_TS_S` in the [csv_reader.h](src/du_app/csv_reader.h) file.
+- `JSON_FORMAT`: if enabled, transmit the control metrics as JSON formatted string, and also expects to receive control messages from the RIC as JSON-formatted strings
+- `DEBUG`: if enabled (set to `1`), the E2 termination will transmit test metrics to the subscribed xApp. If disabled (set to `0`), run-time metrics corresponding to the served users will be transmitted. By default, these metrics are taken from the SCOPE CSV-formatted metrics [directory](https://github.com/wineslab/colosseum-scope/tree/main/radio_code/scope_config/metrics/csv). The freshness in seconds of these metrics can be tuned from the `DELTA_TS_S` constant in the [csv_reader library](src/du_app/csv_reader/src/lib.rs) file.
 
 ## E2 metrics
 
-The transmitted metrics can be selected by updating the `readMetricsInteractive` method in `csv_reader.c`. By default, we provide a profile that reports on a custom E2SM the following KPMs:
+The transmitted metrics can be selected by updating the `read_metrics_interactive` function in the [csv_reader library](src/du_app/csv_reader/src/lib.rs), which has been rewritten in Rust. By default, we provide a profile that reports on a custom E2SM the following KPMs:
 - `slice_id`: the ID of the slice on which the user is allocated
 - `dl_buffer [bytes]`: the occupancy (in bytes) of the RLC buffer of bearer associated to the user
 - `tx_brate downlink [Mbps]`: the transmit bitrate of the user, in downlink, in Mbps
@@ -49,11 +52,11 @@ The transmitted metrics can be selected by updating the `readMetricsInteractive`
 - `slice_prb`: the number of PRBs of the slice
 - `tx_pkts_downlink`: the number of packets transmitted in downlink by the user
 
-A complete list of KPMs can be found in the `struct bs_metrics` of the [`csv_reader.h`](https://github.com/wineslab/colosseum-scope-e2/blob/main/src/du_app/csv_reader.h) file, and different reports can be generated by adding more cases to the the `switch` on the `metrics_preset` variable.
+A complete list of KPMs can be found in the `struct BsMetrics` of the [csv_reader library](src/du_app/csv_reader/src/lib.rs), and different reports can be generated by adding more cases to the `match` statement controlled by the `METRICS_PRESET` constant.
 
 ## Maximum payload of data reports and message segmentation
 
-Large messages over the E2 interface may cause crashes in the `e2term` component upon decoding of the ASN.1 structures. For this reason, the E2 reports are split if their size is larger than the `MAX_REPORT_PAYLOAD` macro (currently set to 300 bytes). In this case, the partial reports (except the last one) will start with the character `m`.
+Large messages over the E2 interface may cause crashes in the `e2term` component upon decoding of the ASN.1 structures. For this reason, the E2 reports are split if their size is larger than the `MAX_REPORT_PAYLOAD` macro (currently set to 300 bytes). In this case, the partial reports (except the last one) will start with the characters `mJQCx`. Note that this has been modified from the previously used `m` character to also support JSON-formatted strings.
 
 ## Troubleshooting
 
