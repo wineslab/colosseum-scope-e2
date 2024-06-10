@@ -28,10 +28,9 @@ It can interact with the files in the SCOPE [scope_config](https://github.com/wi
 
 Once connected to the near-real-time RIC, this implementation is capable of:
 - Transmitting periodic RAN metrics to subscribed xApps with a periodicity defined by the subscribing xApp through RIC Indication Messages
-- Receive control actions from the xApp through RIC Control Messages. The supported control actions allow to modify scheduling and slicing policies of the SCOPE base station. Messages should be in one of the following formats:
+- Receive control actions from the xApp through RIC Control Messages. The supported control actions allow to modify scheduling and slicing policies of the SCOPE base station. Messages should be in one of the following formats (please see the [radio_code](https://github.com/wineslab/colosseum-scope#radio_code) section of the SCOPE repository for more details on the meaning of these values):
     - `<comma-separated scheduling policy for each slice>\n<comma-separated number of RBG for each slice>` if setting the flag `JSON_FORMAT=0` in the `build_odu.sh` file.<sup>[1](#footnote1)</sup> For instance, the control message `1,0,0\n5,10,3` implements the scheduling policiy `1` for the first slice, and `0` for the second and third slices. The control message also sets `5` RBGs for the first slice, `10` for the second, and `3` for the third.
-    - JSON-formatted control policies in the format `{"sched": "<comma-separated string of scheduling policy for each slice>", "slicing": "<comma-separated string with number of RBG for each slice"}` if setting the flag `JSON_FORMAT=1`. For instance, the control message of the previous bullet point would be sent as `{"sched": "1,0,0", "slicing": "5,10,3"}`.
-Please see the [radio_code](https://github.com/wineslab/colosseum-scope#radio_code) section of the SCOPE repository for more details on the meaning of these values. The `JSON_FORMAT` parameter also triggers the periodic metric reports to be sent as JSON-formatted of plain string.
+    - JSON-formatted control policies in the format `{"sched": "<comma-separated string of scheduling policy for each slice>", "slicing": "<comma-separated string with number of RBG for each slice"}` if setting the flag `JSON_FORMAT=1`. For instance, the control message of the previous bullet point would be sent as `{"sched": "1,0,0", "slicing": "5,10,3"}`. The `JSON_FORMAT` parameter also triggers the periodic metric reports to be sent as a JSON-formatted or plain string.
 
 ## Build file
 
