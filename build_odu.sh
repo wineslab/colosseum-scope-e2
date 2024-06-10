@@ -2,7 +2,7 @@
 
 set -e
 
-export RIC_HOST="172.17.1.104"
+export RIC_HOST="172.30.105.104"
 export RIC_PORT=36422
 export INTERFACE_TO_RIC="col0"
 export JSON_FORMAT=0
@@ -14,7 +14,6 @@ if [ $# -ne 0 ]; then
 fi
 
 # build rust libraries
-# rustc --crate-type cdylib src/du_app/csv_reader/src/main.rs -o /usr/lib/libcsv_reader.so
 rust_libraries="csv_reader srs_connector"
 for i in ${rust_libraries}; do
     cd ./src/du_app/${i} && cargo build --release && cp target/release/lib${i}.* /usr/lib/ && cd ../../..
