@@ -14,6 +14,8 @@ This work was partially supported by the U.S. National Science Foundation under 
 
 We provide a Colosseum LXC container that contains this repository, the SCOPE framework, and their prerequisites. The container `scope-with-e2` can be found among the images available for Colosseum users. The default username and password are `root` and `scope`.
 
+NOTE: The following libraries (or equivalent) should be installed on your system: `libpcap-devel`, `libnsl2-devel`.
+
 From the `root` directory of the cloned repository:
 - From the [build_odu.sh](build_odu.sh) file: configure the near-real-time RIC IP address (`RIC_HOST`), port (`RIC_PORT`), and interface to reach the RIC from this host (`INTERFACE_TO_RIC`)
 - Build: `./build_odu.sh` (a clean build may be necessary if modifying the parameters from the build file: `./build_odu.sh clean`)
