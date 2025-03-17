@@ -38,9 +38,9 @@ enum ReportMetrics {
   UlMcs = 19,           // ul_mcs
   UlSam = 20,           // ul_n_samples
   UlBytes = 21,         // ul_buffer_bytes
-  UlThr = 22,           // rx_brate_downlink_Mbps
-  UlPkts = 23,          // rx_pkts_downlink
-  UlErr = 24,           // rx_errors_downlink_perc
+  UlThr = 22,           // rx_brate_uplink_mbps
+  UlPkts = 23,          // rx_pkts_uplink
+  UlErr = 24,           // rx_errors_uplink_perc
   UlRssi = 25,          // ul_rssi
   UlSinr = 26,          // ul_sinr
   Phr = 27,             // phr
@@ -79,9 +79,9 @@ struct BsMetrics {
     ul_mcs: f32,
     ul_n_samples: i32,
     ul_buffer_bytes: i32,
-    rx_brate_downlink_mbps: f32,
-    rx_pkts_downlink: i32,
-    rx_errors_downlink_perc: f32,
+    rx_brate_uplink_mbps: f32,
+    rx_pkts_uplink: i32,
+    rx_errors_uplink_perc: f32,
     ul_rssi: f32,
     ul_sinr: f32,
     phr: f32,
@@ -204,9 +204,9 @@ fn read_metrics(filename: &str, line_no: usize, bs_metrics: &mut BsMetrics) -> i
             el_idx if el_idx == ReportMetrics::UlMcs as usize => bs_metrics.ul_mcs = el.parse::<f32>().unwrap(),
             el_idx if el_idx == ReportMetrics::UlSam as usize => bs_metrics.ul_n_samples = el.parse::<i32>().unwrap(),
             el_idx if el_idx == ReportMetrics::UlBytes as usize => bs_metrics.ul_buffer_bytes = el.parse::<i32>().unwrap(),
-            el_idx if el_idx == ReportMetrics::UlThr as usize => bs_metrics.rx_brate_downlink_mbps = el.parse::<f32>().unwrap(),
-            el_idx if el_idx == ReportMetrics::UlPkts as usize => bs_metrics.rx_pkts_downlink = el.parse::<i32>().unwrap(),
-            el_idx if el_idx == ReportMetrics::UlErr as usize => bs_metrics.rx_errors_downlink_perc = el.parse::<f32>().unwrap(),
+            el_idx if el_idx == ReportMetrics::UlThr as usize => bs_metrics.rx_brate_uplink_mbps = el.parse::<f32>().unwrap(),
+            el_idx if el_idx == ReportMetrics::UlPkts as usize => bs_metrics.rx_pkts_uplink = el.parse::<i32>().unwrap(),
+            el_idx if el_idx == ReportMetrics::UlErr as usize => bs_metrics.rx_errors_uplink_perc = el.parse::<f32>().unwrap(),
             el_idx if el_idx == ReportMetrics::UlRssi as usize => bs_metrics.ul_rssi = el.parse::<f32>().unwrap(),
             el_idx if el_idx == ReportMetrics::UlSinr as usize => bs_metrics.ul_sinr = el.parse::<f32>().unwrap(),
             el_idx if el_idx == ReportMetrics::Phr as usize => bs_metrics.phr = el.parse::<f32>().unwrap(),
@@ -299,8 +299,8 @@ fn read_metrics_interactive(filename: &str, line_no: usize, curr_ts: u128, json_
                         bs_metrics.slicing_enabled, bs_metrics.slice_id, bs_metrics.slice_prb, bs_metrics.power_multiplier,
                         bs_metrics.scheduling_policy, bs_metrics.dl_mcs, bs_metrics.dl_n_samples, bs_metrics.dl_buffer_bytes,
                         bs_metrics.tx_brate_downlink_mbps, bs_metrics.tx_pkts_downlink, bs_metrics.tx_errors_downlink_perc, bs_metrics.dl_cqi,
-                        bs_metrics.ul_mcs, bs_metrics.ul_n_samples, bs_metrics.ul_buffer_bytes, bs_metrics.rx_brate_downlink_mbps,
-                        bs_metrics.rx_pkts_downlink, bs_metrics.rx_errors_downlink_perc, bs_metrics.ul_rssi, bs_metrics.ul_sinr,
+                        bs_metrics.ul_mcs, bs_metrics.ul_n_samples, bs_metrics.ul_buffer_bytes, bs_metrics.rx_brate_uplink_mbps,
+                        bs_metrics.rx_pkts_uplink, bs_metrics.rx_errors_uplink_perc, bs_metrics.ul_rssi, bs_metrics.ul_sinr,
                         bs_metrics.phr, bs_metrics.sum_requested_prbs, bs_metrics.sum_granted_prbs, bs_metrics.dl_pmi, bs_metrics.dl_ri,
                         bs_metrics.ul_n, bs_metrics.ul_turbo_iters);
                     println!("{}", selected_metrics);
@@ -330,9 +330,9 @@ fn read_metrics_interactive(filename: &str, line_no: usize, curr_ts: u128, json_
                         report_metric_names[&(ReportMetrics::UlMcs as usize)], bs_metrics.ul_mcs,
                         report_metric_names[&(ReportMetrics::UlSam as usize)], bs_metrics.ul_n_samples,
                         report_metric_names[&(ReportMetrics::UlBytes as usize)], bs_metrics.ul_buffer_bytes,
-                        report_metric_names[&(ReportMetrics::UlThr as usize)], bs_metrics.rx_brate_downlink_mbps,
-                        report_metric_names[&(ReportMetrics::UlPkts as usize)], bs_metrics.rx_pkts_downlink,
-                        report_metric_names[&(ReportMetrics::UlErr as usize)], bs_metrics.rx_errors_downlink_perc,
+                        report_metric_names[&(ReportMetrics::UlThr as usize)], bs_metrics.rx_brate_uplink_mbps,
+                        report_metric_names[&(ReportMetrics::UlPkts as usize)], bs_metrics.rx_pkts_uplink,
+                        report_metric_names[&(ReportMetrics::UlErr as usize)], bs_metrics.rx_errors_uplink_perc,
                         report_metric_names[&(ReportMetrics::UlRssi as usize)], bs_metrics.ul_rssi,
                         report_metric_names[&(ReportMetrics::UlSinr as usize)], bs_metrics.ul_sinr,
                         report_metric_names[&(ReportMetrics::Phr as usize)], bs_metrics.phr,
