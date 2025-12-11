@@ -4,9 +4,9 @@ This repository is part of the [OpenRAN Gym](https://openrangym.com) project. It
 
 If you use this software, please reference the following papers:
 
-> L. Bonati, M. Polese, S. D'Oro, S. Basagni, T. Melodia, "OpenRAN Gym: An Open Toolbox for Data Collection and Experimentation with AI in O-RAN," Proc. of IEEE WCNC Workshop on Open RAN Architecture for 5G Evolution and 6G, Austin, TX, USA, April 2022. [bibtex](https://ece.northeastern.edu/wineslab/wines_bibtex/bonati2022openrangym.txt) [pdf](https://arxiv.org/pdf/2202.10318.pdf)
+> L. Bonati, M. Polese, S. D'Oro, S. Basagni, T. Melodia, "OpenRAN Gym: An Open Toolbox for Data Collection and Experimentation with AI in O-RAN," Proc. of IEEE WCNC Workshop on Open RAN Architecture for 5G Evolution and 6G, Austin, TX, USA, April 2022. [pdf](https://arxiv.org/pdf/2202.10318.pdf)
 
-> L. Bonati, S. D'Oro, S. Basagni, and T. Melodia, "SCOPE: An Open and Softwarized Prototyping Platform for NextG Systems," in Proceedings of ACM MobiSys, June 2021 [bibtex](https://ece.northeastern.edu/wineslab/wines_bibtex/bonati2021scope.txt) [pdf](https://ece.northeastern.edu/wineslab/papers/bonati2021scope.pdf)
+> L. Bonati, S. D'Oro, S. Basagni, and T. Melodia, "SCOPE: An Open and Softwarized Prototyping Platform for NextG Systems," in Proceedings of ACM MobiSys, June 2021 [pdf](https://dl.acm.org/doi/pdf/10.1145/3458864.3466863)
 
 This work was partially supported by the U.S. National Science Foundation under Grants CNS-1923789 and NSF CNS-1925601, and the U.S. Office of Naval Research under Grant N00014-20-1-2132.
 
